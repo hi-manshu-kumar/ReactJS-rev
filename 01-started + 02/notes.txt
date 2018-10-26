@@ -1,0 +1,227 @@
+what is reactjs?
+a js library for building user interfaces
+
+we require 2 react libs
+1> react.min.js
+2> react-dom.min.js
+
+and babel for transpiling the es6 into js.
+
+`example`
+function person(props){
+    return(
+        <div className = "person">
+            <h1>{props.name}</h1>
+            <p>Your age:{props.age}</p>
+        </div> 
+    );
+}
+
+var app = (
+    <div>
+        <Person name="Max" age="28" />
+        <Person name="Max" age="29" />  
+    </div>
+);
+
+ReactDOM.render(app, document.querySelector('app'));
+----------------
+Next Gen Javascript 
+
+1> var can be replaced by let and const
+
+let for local scope variable var
+const for constant variable
+
+2> arrow function
+
+arrow function is like normal fcuntion but it removes the problem of this
+it dont create a new this inside the function
+
+3>Export and import
+
+default keyword is a special keyword and marking it as a default keyword of file
+
+\ person.js
+const person = {
+    name: 'Max'
+}
+
+export default person /
+
+/utility.js
+export const clean = () => {...}
+export const baseData = 10;
+/
+
+/ app.js
+import person from './person.js'
+import prs from './person.js'
+
+import { clean } from './utility.js'
+import { baseData } from './utility.js'
+
+we can also have alias naming in importing
+import prs from './person.js'
+import {himank as clean} from './utility.js'
+---------------------------------------------------
+classes
+is a blueprint for object
+
+class Person {
+    name = 'Max'
+    call = () => {...}
+}
+
+const myPerson = new Person()
+myPerson.call()
+console.log(myPerson.name)
+
+//class Person extends Master
+class Human{
+  constructor(){
+    this.gender= "male";
+  }
+  
+  printMyGender(){
+    console.log(this.gender);
+  }
+}
+
+class Person extends Human{
+  constructor(){
+    super();
+    this.name= 'heimank';
+  }
+  
+  printMyName(){
+    console.log(this.name);
+  }
+  
+}
+
+const person = new Person();
+person.printMyName();
+person.printMyGender();
+
+inheritence is comparable to protoype
+
+class is blueprint and instantiated using this keyword
+constructor function?
+
+class human extend person()
+protoype?
+
+super costructor must be called in derived class before acessing 'this' or returning from derived constructor.     
+super calls the parent's constructor 
+-----------------------------------------------------------------------
+classes, properties & methods                       const object = {
+                                                               name : "himank" }
+properties are like variables attached to classes/ objects
+
+es6
+constructor() {
+    this.nyProperty = 'value'
+}
+
+es7
+myProperty = 'value'
+
+methods are like 'functions attached to classes/ objects'
+
+es6
+myMethod(){...}
+
+es7
+myMethod = () => {...}
+
+we even dont have to call super() or constructor() in the derived class
+
+`modified code`
+class Human{
+  gender= "male";
+  
+  printMyGender = () => {
+    console.log(this.gender);
+  }
+}
+
+class Person extends Human{
+  
+  name= 'heimank';
+  
+  printMyName = () => {
+    console.log(this.name);
+  }
+  
+}
+
+const person = new Person();
+person.printMyName();
+person.printMyGender();
+--------------------------------------------------------------------------
+spread and rest operators  (...)
+
+spread = used to split up array eloements or obejct properties
+
+const newArray = {...oldarray, 1, 2};
+const oldObject = {name: 'max'}
+const newObject = {...oldObject, newProp:5}
+
+rest = used to merge a list of function arguments into an array
+function sortArgs(...args){
+    return args.sort()
+}
+eg
+const filter = (...args) => {
+    return args.filter(el => el === 1);
+}
+console.log(filter(1,2,3)); 
+*el return the element in the args*
+------------------------------------------------------------------------
+destructring-
+
+easily extract array elements or object proprties and store them in variables
+
+--array destructuring--
+[a, b] = [ 'Hello', 'Max'];
+console.log(a, b); //hello max
+
+
+--object destrutruing--
+{name} = {name:'Max', age:28}
+console.log(name); //max
+console.log(age);  //undefined
+
+eg
+const array = [1, 2, 3];
+[num1, num2] = array;
+console.log(num1, num2);  //1 2
+
+const array = [1, 2, 3];
+[num1, , num3] = array;
+console.log(num1, num3);  //1 3
+-------------------------------------------------------------
+reference and primitive types refresher
+
+primitive type(number, string, boolean) are copied by value when they are assigned to another variable
+
+const person ={
+    name: 'Max'
+};
+
+const secondPerson ={...person}
+
+person.name= 'Manu'
+console.log(secondPerson); //Max if not spread operator then manu 'secondPerson= person'
+
+this is copying in immutable way 
+---------------------------------------------------------------
+array functions
+const numbers = [1,2,3];
+
+const doubleNumArray = numbers.map((num) => return num*2);
+
+console.log(numbers);
+console.log(doubleNumArray)
+-----------------------------------------------------
