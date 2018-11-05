@@ -1,0 +1,32 @@
+1> how and why of react
+
+2>create react app
+
+3> folder structure
+index.html > index.js > app.js >
+
+service worker for pwa
+
+in index.js -> ReactDOM.render(<App />, document.getElementById('root'));
+
+4> understanding thw syntax
+
+ReactDOM.render(<App />, document.getElementById('root')); === 
+
+ReactDOM.render(<h1> hi i am himank </h1>, document.getElementById('root'));
+
+5> understanding jsx
+
+    return (
+      <div className="App">
+        <h1>Hi i'm react app</h1>  
+      </div>
+    );
+  ============================
+    return React.createElement('div', {className : 'App'}, React.createElement( 'h1',null ,'hi, im react app'))
+
+6> restrctions in jsx
+ cant use class instead use className
+ only rerutn 1 element like <div> </div>
+ should have a close parenthesis
+
