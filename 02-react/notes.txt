@@ -29,4 +29,92 @@ ReactDOM.render(<h1> hi i am himank </h1>, document.getElementById('root'));
  cant use class instead use className
  only rerutn 1 element like <div> </div>
  should have a close parenthesis
+--------------------------------------------------------------------------------------------------------------------
+7> creating a functional component
 
+create a new folderin capital `Person`
+and storing the code
+`import React from 'react'; 
+
+const person = () => {
+    return <p> I'm a person</p>
+};
+
+export default person ;`
+
+we can make it reusable and divide complex structureo into small components
+        <Person/>
+        <Person/>
+        <Person/>
+-----------------------------------------------------------------------------------
+8>  outputting dynamic content using {}
+
+{ Math.floor ( Math.random() *30 ) }
+
+in app.js
+<Person name="Max" age="20" >My hobbies : playing game.</Person>
+ 
+in person.js
+const person = (props) => {
+    return <p> I'm a {props.name} and I am {props.age} years old.{props.children}</p>
+};
+
+// in class component {this.props.name} is to be used
+--------------------------------------------------------------------------
+->state
+<Person name={this.state.persons[1].name} age={this.state.persons[1].age}/>
+
+//if state changes then the react renders doms
+//this.state    refers to the class app and uses its state
+--------------------------------------------------------------------------
+->handling events with methods
+
+//we name any event hanlder by switchNameHandler
+< button onClick= {this.switchNameHandler}> hi </button>
+//we dont call this functions we just refer to this function     this.switchNameHandler()
+--------------------------------------------------------------------------
+-> manipulating the state
+
+we dont change state by changing its value
+we use setState
+
+switchNameHandler = () => {
+  this.setState({...state, persons[0].name= "Maximillian", persons[2].age =29 })
+}
+--------------------------------------------------------------------------
+-> passing methods referneces between components
+
+click={this.switchNameHandler.bind(this, 'Max!')
+onClick = {() => this.switchNameHandler('Maximilian!')}        //disadvantage is that oit hs the performance and may render something that you dont want to and may be inefficient
+--------------------------------------------------------------------------
+->Adding two way data binding
+
+
+we have to pass on the event to the function nameChangedHandler and then acess its value by
+event.target.value and pass this function as a prop to the child element
+
+`in person.js
+<input type="text" onChange={props.changed}  placeholder={props.name}/>
+
+`in app.js
+
+  nameChangedHandler = (event) => {
+    this.setState({
+      persons: [
+        {name: "Manu", age: 29},
+        {name: event.target.value, age: 32},
+        {name: "Micahel", age: 12}
+      ]
+    });
+  }
+
+   <Person click={this.switchNameHandler.bind(this, 'Max!')} name={this.state.persons[1].name} age={this.state.persons[1].age}
+    changed={this.nameChangedHandler}/>
+--------------------------------------------------------------------------
+adding styling with stylesheets
+
+either write in Person.css and import it in person.js
+or 
+write it in the `const style = {}`  //using camlecase and in upper commma
+and refermce it in the inline style by 
+style = {style} 
