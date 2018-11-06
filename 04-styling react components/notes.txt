@@ -1,0 +1,73 @@
+1> setting styles dynamically
+
+in if condition we just add the style that we want
+    style.backgroundColor = 'red';
+---------------------------------------------------------
+2> setting classname dynamically
+
+``in app.css
+.red{
+  color: red;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+``in app.js
+let classes = []
+if(this.state.persons.length <= 2){
+  classes.push('red');  // classes = ['red']
+}
+if(this.state.persons.length <=1 ){
+  classes.push('bold');
+}
+
+render(
+    <p className= {classes.join(' ')}>this is really working</p> 
+)
+
+imppppppppppppppppppppppp
+const array = [];
+array.push('red');
+
+array.push('blue');
+
+array = ['red', 'blue'];
+
+array.join(" ");        // arr = [red blue]
+---------------------------------------------------------------
+3> Using radium
+npm i radium@0.19.4
+radium is a popular library that can allow us to use media queries and pseudo selectors
+
+1st import Radium from 'radium';
+2nd export default Radium(App);             //it is a higher order component
+3rd write code
+
+const style = {
+    ':hover' : {
+        backgroundColor: 'lightred',
+        color: 'black'
+    }
+}
+
+style[':hover'] = {
+    backgroundColor : 'salmon',
+    color: 'black' 
+}
+--------------------------------------------------------------------------------
+4> using radium for media queries
+
+@media (min-width: 500px) {
+    .Person{
+        width: 450px;
+    }
+}
+
+to use media queries we need to import StyleRoot component from radium
+import Radium, {StyleRoot} from '../node_modules/radium';
+ and also wrap our return div with 
+ <StyleRoot> 
+    <div></div>
+ </StyleRoot>
