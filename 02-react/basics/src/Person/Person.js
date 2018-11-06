@@ -8,6 +8,12 @@ const person = (props) => {
         }
     };
 
+    const err = Math.random();
+
+    if(err> 0.7){
+        throw new Error("something went wrong");
+    }
+
     return(
         <div className={classes.Person} style={style}>
             <p onClick={props.click}> I'm {props.name} and I am {props.age} years old.</p>

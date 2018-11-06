@@ -1,0 +1,60 @@
+its a higher order component and that simply wraps a component with a goal of handling any errors that component might throw
+
+``imp``we have to bind the key with outer element as the key makes it unique element in div
+
+``in person.js
+    const err = Math.random();
+
+    if(err> 0.7){
+        throw new Error("something went wrong");                                //creating new wrror4
+    }
+
+    return(
+        <div className={classes.Person} style={style}>
+
+``in app.js
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";                  //need to import
+
+if(this.state.showPersons) {
+      person = (<div>
+          {this.state.persons.map( (person, index) => { 
+          return <ErrorBoundary key= {person.id}><Person                                        //<ErrorBoundary key= {person.id}>
+            click= {() => this.deletePersonHandler(index)}
+            name={person.name} 
+            age={person.age}
+            changed={(event) => this.nameChangedHandler(event, person.id)}/></ErrorBoundary>
+          })}
+          </div>
+        );      
+      btnClass = classes.Red;
+    }   
+
+``ErrorBoundary.js
+create a folder ErrorBoundary and a file ErrorBoundary.js
+in it write the html file that you want to show if any code error is shown while production mode
+
+        import React, { Component } from 'react';
+
+        class ErrorBoundary extends Component{
+            state = {
+                hasError: false,
+                errorMessage: ''
+            }
+
+            componentDidCatch = (error, info) => {
+                this.setState({hasError: true, errorMessage: error});                       //for catching an error thrown by us
+            }
+
+            render(){
+                if(this.state.hasError){                                           //rendering by condition if any error is shwon by checking the state
+                    return <h1>{this.state.errorMessage}</h1>                      //this.state.hasError is true
+                } else{
+                    return this.props.children;                                    // if false then print its children
+                }
+            }
+        }
+
+        export default ErrorBoundary;
+
+
+it will not work in development mode only in production mode
