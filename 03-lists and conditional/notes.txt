@@ -1,0 +1,78 @@
+1> rendering content conditionally
+
+we have the option to render conditioonally in angu;ar and vue by 
+{ngIf (x == y) {}}
+
+we can have it in react by
+{this.state.personShow === true ? <div></div> : null}
+
+`togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState ({showPersons : !doesShow});
+}`
+----------------------------------------------
+2> better way (elegant)
+
+by creating a varible and setting it to null
+later checking and setting it to desired value accordint to conditioon
+
+let person = null
+
+if(this.state.personShow) {
+    person = (
+        <div></div>
+    );
+}
+
+return( {person} )
+----------------------------------------------
+3> ouptutting list
+
+ {this.state.persons.map( person=> { 
+          return <Person 
+            name={person.name} 
+            age={person.age} />
+          })}
+-----------------------------------------------
+4> lists and state
+
+index is also passed in the anonymous function and can be passed on to the deletefunciton to splice the array
+.splice(index, no of element, "specific_element", "specific_element2")
+
+  deletePersonHandler = (personIndex)  => {
+    const persons = this.state.persons;
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
+  }
+
+click= {() => this.deletePersonHandler(index)}
+------------------------------------------------------
+5> better approach
+
+we took the reference and changed its value by accessing pointer now we didnt used the setstate and it can lead to unpredicatbale errors
+so better way is 
+
+    const persons = this.state.persons.splice();
+const persons = [...this.state.persons]
+------------------------------------------------------
+6> lists and keys
+
+react doesnt know which list so we need to assign a unique value
+
+key = {index} || key = {person.id}
+
+----------------------------------------------------
+7>flexible list                                                                     imp imp imp
+
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => p.id ===id);
+
+    const person = {...this.state.persons[personIndex]};
+
+    person.name = event.target.value; // with the updated name
+
+    const persons = [...this.state.persons];  //copy of the array
+    persons[personIndex] = person;  //updated one element
+
+    this.setState({ persons: persons});
+  }
