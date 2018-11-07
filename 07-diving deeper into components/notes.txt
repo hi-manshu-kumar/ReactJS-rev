@@ -1,0 +1,13 @@
+we distributed our code into various other file 
+we have 
+src
+    assets
+    
+    components   containing `cockpit` `persons`
+
+    containers  containing app.js
+----------------------------------------------------------------
+stateful                stateless
+acess to state          not
+lifecycle hooks         not
+this.props.title        props.title
