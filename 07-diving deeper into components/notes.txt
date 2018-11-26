@@ -11,3 +11,118 @@ stateful                stateless
 acess to state          not
 lifecycle hooks         not
 this.props.title        props.title
+
+-------------------------------------------------------
+shouldComponentUpdate( nextProps, nextState){
+    return nextProps.persons !== this.props.persons
+}
+
+we can use it to check whether the state or props changed if it changed then we should update the render dom to fucniton
+if not then we shouldnot update the render dom as
+all the lifecycle components and its child components get re run.
+----------------------------------------------------
+PureComponent is also a component that does the shallow check in the component and therefore we need not to check for 
+
+shouldComponentUpdate(nextProps, nextState){
+    return this.state.showPersons !== nextState.showPersons ||
+        this.state.persons !== nextState.showPersons;
+}
+-------------------------------------------------
+rendering and updates
+virtual dom compares with the real dom if any change in the vrtual dom thwen only we need to changed
+--------------------------------------------------
+returning adjacent elements
+
+we cereate a hoc folder high order component
+ to return a Aux file which containers
+    const Aux = (props) => {props.children}; 
+
+    export default Aux;
+
+now in cockpit.js
+    return(
+        <Aux>
+            lfskjsklfsl
+        </Aux>
+    )
+----------------------------------------------------------------------
+hoc with withClass
+
+    import React from 'react';
+
+    const withClass = (props) => {
+        <div className = {props.classes}>
+            {props.children}
+        </div>
+    }
+
+    export default withClass;
+----------------------------------------------------------------------
+advanced hoc
+
+we create a hoc with a fucniton component
+
+    import React from 'react';
+
+    const withClass = (WrappedComponent, className) => {
+        return (props) => (
+            <div className= {className}>
+                <WrappedComponent {...props} />
+            </div>
+        )
+    }
+
+    export default withClass;
+
+and use it in the app.js as
+import Aux from '../hoc/Aux';
+import withClass from '../hoc/withClass';
+
+render(){
+    return (
+        <Aux classes={classes.App}>
+            sdlkfj
+        </Aux>
+}
+
+export default withClass(App, classes.App);                             //imp
+
+
+=> we can also have a stateful component if we ave to fetch user and check its authentication by
+
+const withClass = (WrappedComponent, className) => {
+    return class extends Components{
+        render() {
+            return (
+                <div className= {className}>
+                    <WrappedComponent {...this.props} />
+                </div>
+            )
+        }
+    }
+}
+---------------------------------------------
+Validating PropTypes
+
+import PropTypes from 'prop-types';
+
+
+Person.PropTypes = {
+    click: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number,
+    changed: PropTypes.func
+}
+
+1st cant be used in funcitonal component
+2nd should be used to tell the team which kind of props are these
+-------------------------------------------------
+refs in react
+
+    componentDidMount(){
+        console.log("[Person.js] inside component did mount");
+        if(this.props.position === 0 )
+        this.inputElement.focus();                                      //to use the ref 
+    }
+
+<input ref= {(inp) => { this.inpElement = inp }}>                       // to create the refs

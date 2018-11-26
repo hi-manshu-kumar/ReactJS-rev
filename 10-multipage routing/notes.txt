@@ -1,0 +1,89 @@
+router package is used 
+it parse the url to understand where the user wants to go then we as a developer have to configure 
+then the router can read the config to show diff 
+then it load/render the jsx component
+
+-------------------------------------------------------
+wraping inside BrowserRouter
+
+npm install --save react-router react-router-dom
+
+react-router conatinas the logic 
+react-router-dom to render
+
+in app.js we now have to import {BrowserRouter} from 'react-router-dom'
+amd now wrap the content inside BrowserRouter
+
+    return (
+      <BrowserRouter>
+        <div className="App">
+          <Blog />
+        </div>
+      </BrowserRouter>
+    );
+-----------------------------------------------------------------
+routing components
+
+now import {Route} from 'react-router-dom';
+
+                <Route path="/" exact render={() => <h1>Home</h1>}/>        
+//path used for giving the url
+//render is like jsx used in the return where we pass the refernce of the function
+//exact is used to match the path and display its particular content only on specified path
+
+                <Route path="/new-post" component={NewPost}/>
+we can also render the component={..}
+-----------------------------------------------------------------------
+SPA effect
+
+now we had the problem getting the page reload each time onclicking 
+<a href="/">Home</a>
+
+we now have to import Link
+    <Link to="/" >Home</Link>
+    <Link to={{
+                pathname: '/new-post',
+                hash:'#submit',
+                search:'?quick-submit=true'
+        }}> New Post </Link>
+-----------------------------------------------------------------------------
+HOC for routing props in functional component
+
+import { withRouter }  from 'react-router-dom'
+
+export default withRouter(Post);
+
+with the help of this we will be getting the routing props in functional component
+---------------------------------------------------------------------------------
+to have nested SPA / absolute vs dynamic path
+
+we can apend the url and then route over it
+
+    <Link to={{
+        pathname: this.prop.match.url + '/new-post',                    //this.prop.match.url will help to get the dynaimac url
+        hash:'#submit',
+        search:'?quick-submit=true'
+        }} >New Post</Link>
+
+absolute is example.com/new-post
+dynamic is  .../new-post
+-----------------------------------------------------------------------------------
+NavLink - for checking 'exact' and styling the 'active' button
+
+we will now replace the Link with NavLink to have extra feature
+
+import { Route,NavLink } from 'react-router-dom';
+
+    <li><NavLink 
+            to="/" 
+            exact                                                           // when we style the active component we want to only apply if it is active
+            activeClassName="my-active">Home</NavLink></li                  // we can change the activeClassName value according to us
+
+.Blog a.active{
+    color: #fa923f;
+}
+------------------------------------------------------------------------------
+Passing route parameter
+
+                <Route path="/:id" component={NewPost}/>                // all the parameter in the url will be stored inside the id, also we want to                                                             have it placed last in the routing so that it will be activated at the last 
+

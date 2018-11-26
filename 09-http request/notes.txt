@@ -1,0 +1,161 @@
+https://jsonplaceholder.typicode.com/ for fake json data
+
+we can handle server request with AJAX but we use a third party to do so
+AXIOS
+
+npm i axios --s
+
+'component did mount' is the best place to send http request
+
+    state = {
+        posts:[]
+    }
+
+    componentDidMount() {
+        axios.get("https://jsonplaceholder.typicode.com/posts")
+        .then(response => {
+            this.setState({posts: response.data});
+            // console.log(response);
+        });
+    }
+
+now to render these post in html we create a new array and display that array in jsx 
+also putting its return an html element
+
+    render{
+        const posts = this.state.posts.map( post => {
+            return <Post title={post.body}/>
+        })
+
+        return {
+            <title>
+                {posts}
+            </title>
+        }
+    }
+
+--------now to restrict the element in the post as it return too many------------------------------------------------------------------
+
+transforming data
+
+            const posts = response.data.slice(0, 4);                //we have sliced the data to first four
+            const updatedPosts = posts.map(post => {                // we are adding a new post and adding author to it
+                return {
+                    ...post,
+                    author: 'Himank'
+                }
+            })
+            this.setState({posts: updatedPosts});               //adding it to the state
+    
+----------------------------------------------------------------------------------------------------------------------------
+making a post selectable
+
+onclicking the post we will show its details, for that we select the id on the element click and store it in state 
+then we check whether it has any element in the state and then render it 
+
+-------------------------------------------------------------------------------------------
+fetching data on update
+
+after getting the id we need to hit a GET json data on the axios to request data of particular post by id
+
+        if (this.props.id) {                                                        //if we have ant id from props or null
+            console.log(this.props.id, this.state.loadedPost);
+            if ( !this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {         //check for the loadedPost
+                axios.get("https://jsonplaceholder.typicode.com/posts/" + this.props.id)                                    //or is the loadedpost same
+                    .then(response => {                                                                                     // as previous loadedpost
+                        this.setState({loadedPost: response.data});                                                         
+                        // console.log(response);
+                    });
+            }
+            
+        }
+-------------------------------------------------------------------------------------------
+to post data into axios
+
+    postDataHandler = () => {
+        const post =  {
+            title: this.state.title,
+            content: this.state.content,
+            author: this.state.author
+        }
+        axios.post('https://jsonplaceholder.typicode.com/posts', post)
+            .then(response => {
+                console.log(response);
+            });
+    }
+
+                <button onClick={this.postDataHandler} >Add Post</button>               //we also need a clickhandler
+
+-------------------------------------------------------------------------------------------
+to delete a post from axios
+
+    deletePostHandler = () => {
+        axios.delete('https://jsonplaceholder.typicode.com/posts/' + this.props.id)
+            .then(response => {
+                console.log(response);
+            });
+    }
+                        <button className="Delete" onClick={this.deletePostHandler}>Delete</button>
+
+-------------------------------------------------------------------------------------------
+handling errors
+
+axios.get("sk"+ this.id)
+    .then()
+    .catch(err => console.log(err)
+        this.setState({error: true});
+    )
+
+    render() {
+        let posts = <p style={{textAlign : 'center'}}>Something went wrong...</p>;
+        if(!this.state.error) {
+    }, error => {
+            ......
+        }
+    }
+-------------------------------------------------------
+add interceptors to the axios for handling errors globally
+
+    axios.interceptors.request.use(request => {
+        console.log(request);
+        return request;
+        console.log(error);
+        return Promise.reject(error);
+    });
+
+    axios.interceptors.reqponse.use( response => {
+        console.log(response);
+
+        return response;
+    }, error => {
+        console.log(error);
+        return Promise.reject(error);
+    });
+
+---------------------------------------------------------
+setting a default configuration 
+
+axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
+axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+now we can remove url from the get url
+-----------------------------------------------------
+to set instance of axios
+
+we can have different baseurl of axios by importing custom made axios instance
+
+`axios.js`
+
+    import axios from 'axios';
+
+    const instance = axios.create({
+        baseURL: 'https://jsonplaceholder.typicode.com'
+    });
+
+    instance.defaults.headers.common['Authorization'] = 'Auth token from another instance';
+
+    export default instance;
+
+and now import it in blog.js
+    import axios from '../../axios';
