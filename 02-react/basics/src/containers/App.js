@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Persons from '../components/Persons/Persons';
 import classes from './App.css';
 import Cockpit from '../components/Cockpit/Cockpit';
+import Aux from '../hoc/Aux';
+import withClass from '../hoc/withClass';
 
-class App extends Component {
+class App extends PureComponent {
 
   constructor(props){
     super(props);
@@ -16,7 +18,8 @@ class App extends Component {
         {id: 'wqewq',name: "Micahel", age: 12}
       ],
       otherState: "some other value",
-      showPersons: false
+      showPersons: false,
+      toggleClicked: 0
     };
 
   }
@@ -29,10 +32,11 @@ class App extends Component {
     console.log("[App.js] inside component did mount");
   }
 
-  shouldComponentUpdate(nextProps, nextState){
-    console.log("[Update App.js] inside should component update", nextProps, nextState);
-    return true;
-  }
+  // shouldComponentUpdate(nextProps, nextState){
+  //   console.log("[Update App.js] inside should component update", nextProps, nextState);
+  //   return nextState.persons !== this.state.peresons ||
+  //     nextState.showPersons !== this.state.showPersons;
+  // }
 
   componentWillUpdate(nextProps, nextState){
     console.log("[Update App.js] inside componentWillUpdate", nextProps, nextState);
@@ -64,7 +68,12 @@ class App extends Component {
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState ({showPersons : !doesShow});
+    this.setState ( (prevState, props) => {
+    return {
+      showPersons : !doesShow,
+      toggleClicked: prevState.toggleClicked +1 
+    }
+    });
   }
 
   render() {    
@@ -87,16 +96,16 @@ class App extends Component {
     }
 
     return (
-        <div className={classes.App}>
+        <Aux>
           <Cockpit 
             showPersons = {this.state.showPersons}
             persons = {this.state.persons}
             clicked = {this.togglePersonsHandler} />
           {person}
-        </div>
+        </Aux>
     );
     // return React.createElement('div', {className : 'App'}, React.createElement( 'h1',null ,'hi, im react app'))
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
